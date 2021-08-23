@@ -1,7 +1,7 @@
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const { typeDefs, resolvers } = require('./schemas');
-const {authMiddleware = require("./utils/auth")};
+const {authMiddleware} = require("./utils/auth");
 const path = require('path');
 const db = require('./config/connection');
 const routes = require('./routes');
@@ -16,7 +16,11 @@ const server = new ApolloServer({
 });
 server.applyMiddleware({ app });
 
-
+mongoose.connect(process.env.MONGODB_URI, {
+              useNewUrlParser: true,
+              useFindAndModify: false,
+              useUnifiedTopology: true
+          })
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
